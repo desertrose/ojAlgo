@@ -22,6 +22,8 @@
 package org.ojalgo.array.operation.vector;
 
 import jdk.incubator.vector.DoubleVector;
+import jdk.incubator.vector.VectorOperators.Binary;
+import jdk.incubator.vector.VectorOperators.Unary;
 import jdk.incubator.vector.VectorSpecies;
 
 /**
@@ -55,14 +57,14 @@ public final class VectorOperations {
 
         int[] indexMap = new int[bound];
         for (int i = 0; i < bound; i++) {
-            indexMap[i] = first + (i * step);
+            indexMap[i] = first + i * step;
         }
 
         for (int i = 0; i < bound; i += length) {
             VectorOperations.scaleVector(data, alpha, 0, indexMap, i);
         }
 
-        VectorOperations.scalePlain(data, alpha, first + (bound * step), limit, step);
+        VectorOperations.scalePlain(data, alpha, first + bound * step, limit, step);
     }
 
     static void scalePlain(final double[] data, final double alpha, final int first, final int limit, final int step) {
@@ -77,6 +79,18 @@ public final class VectorOperations {
 
     static void scaleVector(final double[] data, final double alpha, final int dataOffset, final int[] indexMap, final int mapOffset) {
         DoubleVector.fromArray(VectorOperations.SPECIES, data, dataOffset, indexMap, mapOffset).mul(alpha);
+    }
+
+    public static DoubleVector invoke(final DoubleVector target, final Unary operator) {
+        return target.lanewise(operator);
+    }
+
+    public static DoubleVector invoke(final DoubleVector target, final Binary operator, final DoubleVector arg) {
+        return target.lanewise(operator, arg);
+    }
+
+    public static DoubleVector invoke(final DoubleVector target, final Binary operator, final double arg) {
+        return target.lanewise(operator, arg);
     }
 
 }

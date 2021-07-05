@@ -96,7 +96,11 @@
                     <compilerVersion>16</compilerVersion>
                     <source>16</source>
                     <target>16</target>
-                    <compilerArgs>--enable-preview</compilerArgs>
+                    <compilerArgs>
+                        <compilerArg>--enable-preview</compilerArg>
+                        <compilerArg>--add-modules</compilerArg>
+                        <compilerArg>jdk.incubator.vector</compilerArg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>
